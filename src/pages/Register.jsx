@@ -14,12 +14,10 @@ import FormHelperText from "@mui/material/FormHelperText";
 import userServices from "../services/userServices";
 
 function validateEmail(email) {
-  // Very basic email validation (can be improved)
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function validatePassword(password) {
-  // Check if the password is not empty
   return password.trim() !== "";
 }
 
@@ -45,7 +43,6 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validate form fields
     const isValidName = formData.name.trim() !== "";
     const isValidEmail = validateEmail(formData.email);
     const isValidPassword = validatePassword(formData.password);
@@ -59,7 +56,6 @@ const Register = () => {
       !isValidSecurityQuestion ||
       !isValidSecurityAnswer
     ) {
-      // Show error messages for invalid fields
       setFormErrors({
         name: !isValidName,
         email: !isValidEmail,
@@ -71,7 +67,6 @@ const Register = () => {
       return;
     }
 
-    // All fields are valid, submit the form
     try {
       var res = await userServices.registerUser({
         Name: formData.name,
@@ -84,7 +79,6 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error) {
-      console.error("Error submitting registration form:", error);
       setFormErrors({
         ...formErrors,
         emailExists: true,
@@ -98,7 +92,6 @@ const Register = () => {
       ...formData,
       [name]: value,
     });
-    // Clear the error message for the changed field
     setFormErrors({
       ...formErrors,
       [name]: false,

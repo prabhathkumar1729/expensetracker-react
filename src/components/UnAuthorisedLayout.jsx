@@ -1,18 +1,22 @@
-//create a layout for unauthorised users with an app bar having login button on it and title of the app
-
 import React from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const UnAuthorisedLayout = ({ children }) => {
   return (
     <div>
-      <AppBar position="sticky">
+      <AppBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} Color="inherit">
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             walleTracker
           </Typography>
-          <Button variant="contained" color="warning" component={Link} to="/login">
+          <Button
+            variant="contained"
+            color="warning"
+            component={Link}
+            to="/login"
+          >
             Login
           </Button>
         </Toolbar>
@@ -21,6 +25,18 @@ const UnAuthorisedLayout = ({ children }) => {
         <div />
         {children}
       </main>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        closeButton={false}
+      />
     </div>
   );
 };

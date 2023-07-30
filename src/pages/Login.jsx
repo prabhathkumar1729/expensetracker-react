@@ -14,14 +14,15 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FormHelperText from "@mui/material/FormHelperText";
 import UserServices from "../services/userServices";
+import { toast } from "react-toastify";
+import ForgotPassword from "./ForgotPassword";
+
 
 function validateEmail(email) {
-  // Very basic email validation (can be improved)
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function validatePassword(password) {
-  // Check if the password is not empty
   return password.trim() !== "";
 }
 
@@ -43,16 +44,18 @@ function Login() {
         if (res) {
           if (res.accessToken) {
             await localStorage.setItem("JWTToken", res.accessToken);
+            toast.success("Login Successful");
             window.location.href = "/dashboard";
           } else {
             setPasswordError(true);
           }
         } else {
           setPasswordError(true);
+          toast.error("Login Failed");
         }
       } catch (err) {
-        console.log(err);
         setPasswordError(true);
+        toast.error(err.response.data);
       }
     } else {
       setEmailError(!isValidEmail);
@@ -62,6 +65,15 @@ function Login() {
 
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <ThemeProvider theme={createTheme()}>
@@ -115,7 +127,7 @@ function Login() {
               onChange={() => setPasswordError(false)}
             />
             {passwordError && (
-              <FormHelperText error>Password is required</FormHelperText>
+              <FormHelperText error>Please check Password</FormHelperText>
             )}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -131,7 +143,7 @@ function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to="/forgotpass" variant="body2">
+                <Link onClick={handleClickOpen} variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
@@ -144,6 +156,11 @@ function Login() {
           </Box>
         </Box>
       </Container>
+      <ForgotPassword
+        open={open}
+        onClose={handleClose}
+      />
+
     </ThemeProvider>
   );
 }

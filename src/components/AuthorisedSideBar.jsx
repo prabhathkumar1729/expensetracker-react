@@ -38,7 +38,7 @@ const AuthorisedSideBar = ({ open, handleDrawerToggle, handleLogout }) => {
             <ListItemText primary="Dashboard" sx={{ color: "black" }} />
           </ListItemButton>
         </ListItem>
-        <ListItem component={Link} to="/transactions">
+        <ListItem component={Link} to="/transactions" selected={isActive("/transactions")}>
           <ListItemButton>
             <ListItemIcon>
               <ShoppingCartIcon />
@@ -46,7 +46,7 @@ const AuthorisedSideBar = ({ open, handleDrawerToggle, handleLogout }) => {
             <ListItemText primary="Transactions" sx={{ color: "black" }} />
           </ListItemButton>
         </ListItem>
-        <ListItem component={Link} to="/categories">
+        <ListItem component={Link} to="/categories" selected={isActive("/categories")}>
           <ListItemButton>
             <ListItemIcon>
               <PeopleIcon />
@@ -54,7 +54,7 @@ const AuthorisedSideBar = ({ open, handleDrawerToggle, handleLogout }) => {
             <ListItemText primary="Categories" sx={{ color: "black" }} />
           </ListItemButton>
         </ListItem>
-        <ListItem component={Link} to="/profile">
+        <ListItem component={Link} to="/profile" selected={isActive("/profile")}>
           <ListItemButton>
             <ListItemIcon>
               <AccountCircleIcon />

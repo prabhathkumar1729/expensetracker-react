@@ -50,8 +50,6 @@ export const deleteTransaction = createAsyncThunk(
     "transaction/deleteTransaction",
     async (transactionId, { rejectWithValue }) => {
         try {
-            console.log("im in the middlewear");
-            console.log(transactionId);
             await TransactionServices.deleteTransaction(transactionId);
             return transactionId;
         } catch (err) {
@@ -64,8 +62,6 @@ export const deleteMultipleTransaction = createAsyncThunk(
     "transaction/deleteMultipleTransaction",
     async (transactionIds, { rejectWithValue }) => {
         try {
-            console.log(transactionIds);
-            console.log("this is i received");
             await TransactionServices.deleteMultipleTransaction(transactionIds);
             return transactionIds;
         } catch (err) {
@@ -125,7 +121,6 @@ const TransactionSlice = createSlice({
             state.transactions = action.payload;
             state.error = false;
             state.message = "Transactions Fetched Successfully";
-            toast.success("Transactions Fetched Successfully");
         });
         builder.addCase(getTransactions.rejected, (state, action) => {
             state.transactions = [];
@@ -160,9 +155,6 @@ const TransactionSlice = createSlice({
         });
 
         builder.addCase(deleteTransaction.fulfilled, (state, action) => {
-            //action contains the transactionId that should be removed from the state
-            console.log("Hlwlllllllllllleajsfuahsfuhawihfwiuehfwererwe");
-            console.log(action.payload);
             state.transactions = state.transactions.filter((transaction) => transaction.transactionId !== action.payload);
             state.error = false;
             state.message = "Transaction Deleted Successfully";

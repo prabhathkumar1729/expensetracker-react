@@ -48,7 +48,7 @@ const TransactionsList = () => {
         return new Date(params.value).toLocaleDateString();
       },
     },
-    { field: "amount", headerName: "Amount", width: 150 },
+    { field: "amount", headerName: "Amount" },
     { field: "category", headerName: "Category", width: 150 },
     { field: "description", headerName: "Description", width: 200 },
     {
@@ -102,7 +102,6 @@ const TransactionsList = () => {
 
   const handleConfirmSave = async () => {
     setIsSaveConfirmationOpen(false);
-    console.log("Dispatching updated transaction:", editedTransaction);
     await dispatch(
       updateTransaction({
         transactionId: selectedTransaction.transactionId,
@@ -131,21 +130,9 @@ const TransactionsList = () => {
 
   const handleConfirmDelete = async () => {
     setIsDeleteConfirmationOpen(false);
-    console.log(
-      "Selected transactions to delete:",
-      selectedTransactionsToDelete
-    );
     if (selectedTransactionsToDelete.length === 1) {
       await dispatch(deleteTransaction(selectedTransactionsToDelete[0]));
-      console.log(
-        "Dispatching delete transaction:",
-        selectedTransactionsToDelete[0]
-      );
     } else {
-      console.log(
-        "Dispatching delete multiple transactions:",
-        selectedTransactionsToDelete
-      );
       dispatch(deleteMultipleTransaction(selectedTransactionsToDelete));
     }
   };
@@ -158,7 +145,13 @@ const TransactionsList = () => {
 
   return (
     <div style={{ height: "auto", width: "100%" }}>
-      <Button variant="contained" color="error" onClick={handleDeleteSelected} sx={{margin:"20px"}}>
+      <Button
+        variant="contained"
+        color="error"
+        disabled={selectedTransactionsToDelete.length === 0}
+        onClick={handleDeleteSelected}
+        sx={{ margin: "20px" }}
+      >
         Delete Selected
       </Button>
       <DataGrid
@@ -170,6 +163,7 @@ const TransactionsList = () => {
         components={{
           Toolbar: GridToolbar,
         }}
+        sx={{ alignItems: "center" }}
         onRowSelectionModelChange={(newSelection) =>
           setSelectedTransactionsToDelete(newSelection)
         }

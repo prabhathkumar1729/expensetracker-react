@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import CategoryServices from "../services/categoryServices";
-import { toast } from "react-toastify";
 const initialState = {
   categories: [
     "Food",
@@ -74,7 +73,6 @@ const categorySlice = createSlice({
       state.categories = [...new Set([...state.categories, ...action.payload])];
       state.error = false;
       state.message = "User Categories Fetched Successfully";
-      toast.success("User Categories Fetched Successfully");
       state.loaded = true;
     });
     builder.addCase(getUserCategories.rejected, (state, action) => {

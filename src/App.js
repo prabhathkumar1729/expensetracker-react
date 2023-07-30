@@ -20,7 +20,6 @@ import Categories from "./pages/Categories";
 import Profile from "./pages/Profile";
 import AuthorisedLayout from "./components/AuthorisedLayout";
 import UnAuthorisedLayout from "./components/UnAuthorisedLayout";
-import ForgotPassword from "./pages/ForgotPassword";
 const decodeJwtToken = (token) => {
   const payload = token.split(".")[1];
   const decodedPayload = JSON.parse(atob(payload));
@@ -86,17 +85,6 @@ function App() {
               ) : (
                 <UnAuthorisedLayout>
                   <Register />
-                </UnAuthorisedLayout>
-              )
-            }
-          />
-          <Route path="/forgotpass"
-            element={
-              token ? (
-                <Navigate to="/dashboard" />
-              ) : (
-                <UnAuthorisedLayout>
-                  <ForgotPassword />
                 </UnAuthorisedLayout>
               )
             }

@@ -2,6 +2,9 @@ import axios from "axios";
 
 const apiInstance = axios.create({
   baseURL: "https://localhost:7220/api/Transaction/",
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("JWTToken")}`,
+  },
 });
 
 const getTransactions = async (userId) => {

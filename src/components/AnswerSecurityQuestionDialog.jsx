@@ -17,8 +17,9 @@ const AnswerSecurityQuestionDialog = ({ email, securityQuestion, onVerifyAnswer 
         fullWidth
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
+        variant="standard"
       />
-      <Button variant="contained" color="primary" onClick={handleVerifyAnswer}>
+      <Button variant="contained" color="primary" onClick={handleVerifyAnswer} sx={{margin:"20px"}}>
         Verify Answer
       </Button>
     </Box>

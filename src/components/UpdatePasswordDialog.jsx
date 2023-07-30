@@ -14,7 +14,6 @@ import ConfirmationDialogue from "./ConfirmationDialogue";
 import userServices from "../services/userServices";
 
 const UpdatePasswordDialog = ({ open, onClose, email }) => {
-  //   const dispatch = useDispatch();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmationOpen, setConfirmationOpen] = useState(false);
@@ -22,10 +21,6 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
 
   const handleOpenConfirmation = () => {
     setConfirmationOpen(true);
-  };
-
-  const handleCloseConfirmation = () => {
-    setConfirmationOpen(false);
   };
 
   const handleSave = () => {
@@ -41,28 +36,21 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
 
   const handleConfirmSave = async () => {
     setConfirmationOpen(false);
-    // await dispatch(updateUserPassword({ email, password }));
-    try{
-        var res = await userServices.resetPassword({
-            Email: email,
-            Password: password,
-        });
+    try {
+      var res = await userServices.resetPassword({
+        Email: email,
+        Password: password,
+      });
 
-        toast.success("Password updated successfully");
+      toast.success(res);
+    } catch (err) {
+      toast.error(err.response.data);
+    } finally {
+      setConfirmationOpen(false);
+      setPassword("");
+      setConfirmPassword("");
+      setFormError("");
     }
-    catch(err){
-        console.log(err);
-        toast.error("Error updating password");
-    }
-    finally{
-        setConfirmationOpen(false);
-        setPassword("");
-        setConfirmPassword("");
-        setFormError("");
-    }
-    // console.log(res);
-    // // if(res)
-    // onClose();
   };
 
   const handleCancelSave = () => {
@@ -83,6 +71,7 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
+            variant="standard"
           />
           <TextField
             label="Confirm Password"
@@ -90,6 +79,7 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             fullWidth
+            variant="standard"
           />
           {formError && <FormHelperText error>{formError}</FormHelperText>}
         </DialogContent>

@@ -1,58 +1,77 @@
 import React, { useState } from "react";
 import ForgotPasswordDialog from "../components/ForgotPasswordDialog";
 import AnswerSecurityQuestionDialog from "../components/AnswerSecurityQuestionDialog";
-import ChangePasswordDialog from "../components/UpdatePasswordDialog";
+import userServices from "../services/userServices";
+import { toast } from "react-toastify";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import UpdatePasswordDialog from "../components/UpdatePasswordDialog";
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [securityQuestion, setSecurityQuestion] = useState("");
-  const [verifiedAnswer, setVerifiedAnswer] = useState(false);
+  const { onClose, open } = props;
+  const handleClose = () => {};
 
-  const handleSendSecurityQuestion = (email) => {
-    // Send API request to get the security question based on the email
-    // Set the security question received from the API
-    // For now, let's assume the security question is "What is your pet's name?"
-    setSecurityQuestion("What is your pet's name?");
-    setEmail(email);
-    setStep(2);
-  };
-
-  const handleVerifyAnswer = (email, answer) => {
-    // Send API request to verify the answer to the security question
-    // For now, let's assume the correct answer is "fluffy"
-    if (answer.toLowerCase() === "fluffy") {
-      setVerifiedAnswer(true);
-      setStep(3);
-    } else {
-      // Incorrect answer, show an error message or handle accordingly
-      alert("Incorrect answer. Please try again.");
+  const handleSendSecurityQuestion = async (email) => {
+    try {
+      var res = await userServices.getUserSecurityQuestion(email);
+      toast.success("Security question requested successfully.");
+      setSecurityQuestion(res);
+      setEmail(email);
+      setStep(2);
+    } catch (err) {
+      toast.error(err.response.data);
     }
   };
 
-  const handlePasswordChange = (newPassword) => {
-    // Send API request to change the password
-    // For now, let's assume the password change was successful
-    alert("Password changed successfully!");
-    setStep(1);
+  const handleVerifyAnswer = (email, answer) => {
+    try {
+      var res = userServices.isUserSecurityAnswerValid({
+        email: email,
+        securityAnswer: answer,
+      });
+      if (res) {
+        toast.success("Correct answer. Please change your password.");
+        setStep(3);
+      } else {
+        toast.error("Incorrect answer. Please try again.");
+      }
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  const handlePasswordChange = () => {
+    onClose();
   };
 
   return (
-    <div>
-      {step === 1 && <ForgotPasswordDialog onSendSecurityQuestion={handleSendSecurityQuestion} />}
-      {step === 2 && (
-        <AnswerSecurityQuestionDialog
-          email={email}
-          securityQuestion={securityQuestion}
-          onVerifyAnswer={handleVerifyAnswer}
-        />
-      )}
-      {step === 3 && (
-        <ChangePasswordDialog
-          email={email}
-          onPasswordChange={handlePasswordChange}
-        />
-      )}
+    <div className="ForgotDialog">
+      <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
+        <DialogContent>
+          {step === 1 && (
+            <ForgotPasswordDialog
+              onSendSecurityQuestion={handleSendSecurityQuestion}
+            />
+          )}
+          {step === 2 && (
+            <AnswerSecurityQuestionDialog
+              email={email}
+              securityQuestion={securityQuestion}
+              onVerifyAnswer={handleVerifyAnswer}
+            />
+          )}
+          {step === 3 && (
+            <UpdatePasswordDialog
+              email={email}
+              onClose={handlePasswordChange}
+              open={true}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

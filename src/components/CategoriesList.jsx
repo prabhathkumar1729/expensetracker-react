@@ -27,7 +27,6 @@ const CategoriesList = () => {
     category: item,
   }));
   const userId = useSelector((state) => state.user.user.Id);
-  console.log("CategoriesList userId:", userId);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [formError, setFormError] = useState("");
@@ -132,11 +131,6 @@ const CategoriesList = () => {
   };
 
   const handleSave = () => {
-    console.log("Dispatching updated category:", editedCategory);
-    console.log(
-      "Dispatching update transactions with category:",
-      selectedCategory.category
-    );
     const trimmedCategory = editedCategory.trim();
     var flag = false;
     if (trimmedCategory === "") {
@@ -153,12 +147,6 @@ const CategoriesList = () => {
       setFormError("You can't add more than 15 categories");
       flag = true;
     }
-
-    console.log("hehehehehehehe", {
-      userId: userId,
-      oldCategory: selectedCategory.category,
-      newCategory: editedCategory,
-    });
 
     if (!flag) {
       setIsEditConfirmationDialogOpen(true);
@@ -199,25 +187,15 @@ const CategoriesList = () => {
     const deleteTransactions = deleteOption === "delete";
 
     if (deleteTransactions) {
-      console.log(
-        "Dispatching delete transactions with category:",
-        categoryToDelete
+      dispatch(
+        deleteCategoryAndTransactions({
+          userId: userId,
+          category: categoryToDelete,
+        })
       );
     }
 
-    console.log("Dispatching delete category:", categoryToDelete);
-    dispatch(
-      deleteCategoryAndTransactions({
-        userId: userId,
-        category: categoryToDelete,
-      })
-    );
-
     if (!deleteTransactions) {
-      console.log(
-        "Dispatching update transactions to 'Others' category",
-        categoryToDelete
-      );
       dispatch(
         updateCategoryAndTransactions({
           userId: userId,
@@ -236,7 +214,7 @@ const CategoriesList = () => {
   const getRowId = (row) => row.id;
 
   return (
-    <div style={{ height: "auto", width: "100%" }}>
+    <div style={{ backgroundColor: "#fff" }}>
       <Button
         variant="contained"
         color="primary"
@@ -253,6 +231,7 @@ const CategoriesList = () => {
           Toolbar: GridToolbar,
         }}
         getRowId={getRowId}
+        sx={{ alignItems: "center" }}
       />
 
       {isEditDialogOpen && (

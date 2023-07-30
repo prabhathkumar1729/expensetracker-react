@@ -16,8 +16,9 @@ const ForgotPasswordDialog = ({ onSendSecurityQuestion }) => {
         fullWidth
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        variant="standard"
       />
-      <Button variant="contained" color="primary" onClick={handleSendSecurityQuestion}>
+      <Button variant="contained" color="primary" onClick={handleSendSecurityQuestion} sx={{margin:"20px"}}>
         Send Security Question
       </Button>
     </Box>

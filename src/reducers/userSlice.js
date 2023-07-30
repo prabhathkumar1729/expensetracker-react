@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import UserServices from "../services/userServices";
-import { toast } from "react-toastify";
 
 const initialState = {
   user: {},
@@ -48,7 +47,6 @@ const UserSlice = createSlice({
       };
       state.error = false;
       state.message = "User details set sucessfully";
-      toast.success("User details set sucessfully");
     }
   }
 });

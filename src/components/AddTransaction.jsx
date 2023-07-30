@@ -45,25 +45,24 @@ const AddTransactions = () => {
         amount: amount,
       };
       dispatch(addTransaction(temp));
-      console.log("add transaction");
-      console.log(temp);
-
       formRef.current.reset();
       setCategory("");
       setAmount("");
       setDate("");
       setDescription("");
     }
-    console.log("handle dialog");
-    console.log(confirmed);
     setConfirmation(false);
   };
 
   return (
-    <Box>
-      <h1>Add Transaction</h1>
-      <form ref={formRef} onSubmit={handleSubmit}>
-        <FormControl variant="outlined" required>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <h3>Add Transaction</h3>
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        style={{ display: "inline-grid" }}
+      >
+        <FormControl variant="standard" required>
           <InputLabel>Category</InputLabel>
           <Select
             value={category}
@@ -80,7 +79,7 @@ const AddTransactions = () => {
         <TextField
           type="number"
           label="Amount"
-          variant="outlined"
+          variant="standard"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           required
@@ -88,7 +87,7 @@ const AddTransactions = () => {
         <TextField
           type="date"
           label="Date"
-          variant="outlined"
+          variant="standard"
           value={date}
           onChange={(e) => setDate(e.target.value)}
           inputProps={{
@@ -98,7 +97,7 @@ const AddTransactions = () => {
         />
         <TextField
           label="Description"
-          variant="outlined"
+          variant="standard"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
@@ -107,6 +106,7 @@ const AddTransactions = () => {
           type="submit"
           variant="contained"
           color="primary"
+          sx={{ margin: "20px" }}
         >
           Add Transaction
         </Button>

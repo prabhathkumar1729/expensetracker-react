@@ -41,8 +41,11 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
         Email: email,
         Password: password,
       });
-
-      toast.success(res);
+      if (res) {
+        toast.success("Password changed successfully");
+      } else {
+        toast.error("Password reset failed");
+      }
     } catch (err) {
       toast.error(err.response.data);
     } finally {
@@ -50,6 +53,7 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
       setPassword("");
       setConfirmPassword("");
       setFormError("");
+      onClose();
     }
   };
 

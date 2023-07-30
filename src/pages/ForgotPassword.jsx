@@ -12,7 +12,11 @@ const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
   const [securityQuestion, setSecurityQuestion] = useState("");
   const { onClose, open } = props;
-  const handleClose = () => {};
+  const handleClose = () => {
+    setStep(1);
+    setSecurityQuestion("");
+    onClose();
+  };
 
   const handleSendSecurityQuestion = async (email) => {
     try {
@@ -26,9 +30,9 @@ const ForgotPassword = (props) => {
     }
   };
 
-  const handleVerifyAnswer = (email, answer) => {
+  const handleVerifyAnswer = async (email, answer) => {
     try {
-      var res = userServices.isUserSecurityAnswerValid({
+      var res = await userServices.isUserSecurityAnswerValid({
         email: email,
         securityAnswer: answer,
       });
@@ -44,6 +48,8 @@ const ForgotPassword = (props) => {
   };
 
   const handlePasswordChange = () => {
+    setStep(1);
+    setSecurityQuestion("");
     onClose();
   };
 

@@ -1,9 +1,11 @@
-import React from "react";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import React from 'react';
+import {
+  AppBar, Toolbar, Typography, Button,
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-const UnAuthorisedLayout = ({ children }) => {
+function UnAuthorisedLayout({ children }) {
   return (
     <div>
       <AppBar position="fixed">
@@ -28,7 +30,7 @@ const UnAuthorisedLayout = ({ children }) => {
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
-        hideProgressBar={true}
+        hideProgressBar
         newestOnTop={false}
         closeOnClick
         rtl={false}
@@ -39,6 +41,6 @@ const UnAuthorisedLayout = ({ children }) => {
       />
     </div>
   );
-};
+}
 
 export default UnAuthorisedLayout;

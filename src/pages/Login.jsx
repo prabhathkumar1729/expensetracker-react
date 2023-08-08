@@ -1,57 +1,56 @@
-import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import FormHelperText from "@mui/material/FormHelperText";
-import UserServices from "../services/userServices";
-import { toast } from "react-toastify";
-import ForgotPassword from "./ForgotPassword";
-
+import React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { Link } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import FormHelperText from '@mui/material/FormHelperText';
+import { toast } from 'react-toastify';
+import UserServices from '../services/userServices';
+import ForgotPassword from './ForgotPassword';
 
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function validatePassword(password) {
-  return password.trim() !== "";
+  return password.trim() !== '';
 }
 
 function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
+    const email = data.get('email');
+    const password = data.get('password');
     const isValidEmail = validateEmail(email);
     const isValidPassword = validatePassword(password);
 
     if (isValidEmail && isValidPassword) {
       try {
-        var res = await UserServices.loginUser({
+        const res = await UserServices.loginUser({
           Email: email,
           Password: password,
         });
         if (res) {
           if (res.accessToken) {
-            await localStorage.setItem("JWTToken", res.accessToken);
-            toast.success("Login Successful");
-            window.location.href = "/dashboard";
+            await localStorage.setItem('JWTToken', res.accessToken);
+            toast.success('Login Successful');
+            window.location.href = '/dashboard';
           } else {
             setPasswordError(true);
           }
         } else {
           setPasswordError(true);
-          toast.error("Login Failed");
+          toast.error('Login Failed');
         }
       } catch (err) {
         setPasswordError(true);
@@ -82,12 +81,12 @@ function Login() {
         <Box
           sx={{
             marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -149,7 +148,7 @@ function Login() {
               </Grid>
               <Grid item>
                 <Link to="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>

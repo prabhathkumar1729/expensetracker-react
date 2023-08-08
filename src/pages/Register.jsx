@@ -1,34 +1,34 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import { Link, useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import FormHelperText from "@mui/material/FormHelperText";
-import userServices from "../services/userServices";
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import { Link, useNavigate } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import FormHelperText from '@mui/material/FormHelperText';
+import userServices from '../services/userServices';
 
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function validatePassword(password) {
-  return password.trim() !== "";
+  return password.trim() !== '';
 }
 
-const Register = () => {
-    var navigate = useNavigate();
+function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
-    name: "",
-    email: "",
-    password: "",
-    securityQuestion: "",
-    securityAnswer: "",
+    name: '',
+    email: '',
+    password: '',
+    securityQuestion: '',
+    securityAnswer: '',
   });
 
   const [formErrors, setFormErrors] = React.useState({
@@ -43,18 +43,18 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const isValidName = formData.name.trim() !== "";
+    const isValidName = formData.name.trim() !== '';
     const isValidEmail = validateEmail(formData.email);
     const isValidPassword = validatePassword(formData.password);
-    const isValidSecurityQuestion = formData.securityQuestion.trim() !== "";
-    const isValidSecurityAnswer = formData.securityAnswer.trim() !== "";
+    const isValidSecurityQuestion = formData.securityQuestion.trim() !== '';
+    const isValidSecurityAnswer = formData.securityAnswer.trim() !== '';
 
     if (
-      !isValidName ||
-      !isValidEmail ||
-      !isValidPassword ||
-      !isValidSecurityQuestion ||
-      !isValidSecurityAnswer
+      !isValidName
+      || !isValidEmail
+      || !isValidPassword
+      || !isValidSecurityQuestion
+      || !isValidSecurityAnswer
     ) {
       setFormErrors({
         name: !isValidName,
@@ -68,7 +68,7 @@ const Register = () => {
     }
 
     try {
-      var res = await userServices.registerUser({
+      const res = await userServices.registerUser({
         Name: formData.name,
         Email: formData.email,
         Password: formData.password,
@@ -76,7 +76,7 @@ const Register = () => {
         SecurityAnswer: formData.securityAnswer,
       });
       if (res) {
-        navigate("/login");
+        navigate('/login');
       }
     } catch (error) {
       setFormErrors({
@@ -106,12 +106,12 @@ const Register = () => {
         <Box
           sx={{
             marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -214,6 +214,6 @@ const Register = () => {
       </Container>
     </ThemeProvider>
   );
-};
+}
 
 export default Register;

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {Drawer} from "@mui/material";
-import AuthorisedSideBar from "./AuthorisedSideBar";
-import AuthorisedAppBar from "./AuthorisedAppBar";
+import React, { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Drawer } from '@mui/material';
+import AuthorisedSideBar from './AuthorisedSideBar';
+import AuthorisedAppBar from './AuthorisedAppBar';
 
-const AuthorisedLayout = ({ children }) => {
+function AuthorisedLayout({ children }) {
   const [open, setOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -34,7 +34,7 @@ const AuthorisedLayout = ({ children }) => {
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
-        hideProgressBar={true}
+        hideProgressBar
         newestOnTop={false}
         closeOnClick
         rtl={false}
@@ -45,6 +45,6 @@ const AuthorisedLayout = ({ children }) => {
       />
     </div>
   );
-};
+}
 
 export default AuthorisedLayout;

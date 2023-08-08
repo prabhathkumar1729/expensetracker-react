@@ -1,8 +1,10 @@
-import React from "react";
-import { AppBar, Toolbar, IconButton, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import React from 'react';
+import {
+  AppBar, Toolbar, IconButton, Typography,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
-const AuthorisedAppBar = ({ handleDrawerToggle }) => {
+function AuthorisedAppBar({ handleDrawerToggle }) {
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -13,6 +15,6 @@ const AuthorisedAppBar = ({ handleDrawerToggle }) => {
       </Toolbar>
     </AppBar>
   );
-};
+}
 
 export default AuthorisedAppBar;

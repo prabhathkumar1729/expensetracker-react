@@ -1,7 +1,5 @@
-import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTransaction } from "../reducers/transactionSlice";
-import ConfirmationDialogue from "./ConfirmationDialogue";
+import React, { useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   TextField,
   Button,
@@ -10,17 +8,19 @@ import {
   Select,
   MenuItem,
   Box,
-} from "@mui/material";
+} from '@mui/material';
+import { addTransaction } from '../reducers/transactionSlice';
+import ConfirmationDialogue from './ConfirmationDialogue';
 
-const AddTransactions = () => {
+function AddTransactions() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
   const userId = useSelector((state) => state.user.user.Id);
   const formRef = useRef(null);
-  const [category, setCategory] = useState("");
-  const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState('');
+  const [amount, setAmount] = useState('');
+  const [date, setDate] = useState('');
+  const [description, setDescription] = useState('');
   const [confirmation, setConfirmation] = useState(false);
 
   const handleSubmit = (e) => {
@@ -28,39 +28,39 @@ const AddTransactions = () => {
     setConfirmation(true);
   };
 
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
+  const formatDate = (_date) => {
+    const year = _date.getFullYear();
+    const month = String(_date.getMonth() + 1).padStart(2, '0');
+    const day = String(_date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
 
   const handleDialog = (confirmed) => {
     if (confirmed) {
-      var temp = {
-        userId: userId,
-        category: category,
+      const temp = {
+        userId,
+        category,
         transactionDate: date,
-        description: description,
-        amount: amount,
+        description,
+        amount,
       };
       dispatch(addTransaction(temp));
       formRef.current.reset();
-      setCategory("");
-      setAmount("");
-      setDate("");
-      setDescription("");
+      setCategory('');
+      setAmount('');
+      setDate('');
+      setDescription('');
     }
     setConfirmation(false);
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <h3>Add Transaction</h3>
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        style={{ display: "inline-grid" }}
+        style={{ display: 'inline-grid' }}
       >
         <FormControl variant="standard" required>
           <InputLabel>Category</InputLabel>
@@ -69,9 +69,9 @@ const AddTransactions = () => {
             onChange={(e) => setCategory(e.target.value)}
             label="Category"
           >
-            {categories.map((category) => (
-              <MenuItem key={category} value={category}>
-                {category}
+            {categories.map((_category) => (
+              <MenuItem key={_category} value={_category}>
+                {_category}
               </MenuItem>
             ))}
           </Select>
@@ -106,7 +106,7 @@ const AddTransactions = () => {
           type="submit"
           variant="contained"
           color="primary"
-          sx={{ margin: "20px" }}
+          sx={{ margin: '20px' }}
         >
           Add Transaction
         </Button>
@@ -122,6 +122,6 @@ const AddTransactions = () => {
       )}
     </Box>
   );
-};
+}
 
 export default AddTransactions;

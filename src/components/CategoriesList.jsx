@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import {
   Button,
   Dialog,
@@ -12,14 +12,15 @@ import {
   RadioGroup,
   FormControl,
   FormControlLabel,
-} from "@mui/material";
-import ConfirmationDialogue from "./ConfirmationDialogue";
+} from '@mui/material';
+import ConfirmationDialogue from './ConfirmationDialogue';
 import {
   deleteCategoryAndTransactions,
   updateCategoryAndTransactions,
-} from "../reducers/transactionSlice";
-import { addCategory } from "../reducers/categorySlice";
-const CategoriesList = () => {
+} from '../reducers/transactionSlice';
+import { addCategory } from '../reducers/categorySlice';
+
+function CategoriesList() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
   const rows = categories.map((item, index) => ({
@@ -29,82 +30,76 @@ const CategoriesList = () => {
   const userId = useSelector((state) => state.user.user.Id);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [formError, setFormError] = useState("");
-  const [editedCategory, setEditedCategory] = useState("");
-  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
-    useState(false);
-  const [isDeleteOptionDialogOpen, setIsDeleteOptionDialogOpen] =
-    useState(false);
-  const [deleteOption, setDeleteOption] = useState("delete");
-  const [isEditConfirmationDialogOpen, setIsEditConfirmationDialogOpen] =
-    useState(false);
+  const [formError, setFormError] = useState('');
+  const [editedCategory, setEditedCategory] = useState('');
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+  const [isDeleteOptionDialogOpen, setIsDeleteOptionDialogOpen] = useState(false);
+  const [deleteOption, setDeleteOption] = useState('delete');
+  const [isEditConfirmationDialogOpen, setIsEditConfirmationDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [newCategory, setNewCategory] = useState("");
-  const [isAddConfirmationDialogOpen, setIsAddConfirmationDialogOpen] =
-    useState(false);
+  const [newCategory, setNewCategory] = useState('');
+  const [isAddConfirmationDialogOpen, setIsAddConfirmationDialogOpen] = useState(false);
   const columns = [
-    { field: "category", headerName: "Category", width: 150 },
+    { field: 'category', headerName: 'Category', width: 150 },
     {
-      field: "actions",
-      headerName: "Actions",
+      field: 'actions',
+      headerName: 'Actions',
       width: 200,
-      renderCell: (params) => {
-        return (
-          <>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={() => handleEdit(params.row)}
-            >
-              Edit
-            </Button>
-            <Button
-              variant="outlined"
-              size="small"
-              color="error"
-              onClick={() => handleDelete(params.row)}
-            >
-              Delete
-            </Button>
-          </>
-        );
-      },
+      renderCell: (params) => (
+        <>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => handleEdit(params.row)}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            color="error"
+            onClick={() => handleDelete(params.row)}
+          >
+            Delete
+          </Button>
+        </>
+      ),
     },
   ];
 
   const handleAdd = () => {
     setIsAddDialogOpen(true);
-    setNewCategory("");
-    setFormError("");
+    setNewCategory('');
+    setFormError('');
   };
 
   const handleAddDialogClose = () => {
     setIsAddDialogOpen(false);
-    setFormError("");
+    setFormError('');
   };
 
   const handleConfirmAdd = () => {
     setIsAddConfirmationDialogOpen(false);
     setIsAddDialogOpen(false);
-    setFormError("");
+    setFormError('');
     dispatch(addCategory(newCategory));
   };
 
   const handleCancleAddConfirm = () => {
     setIsAddConfirmationDialogOpen(false);
-    setFormError("");
+    setFormError('');
   };
 
   const handleAddSave = () => {
-    var flag = false;
+    let flag = false;
     const trimmedNewCategory = newCategory.trim();
-    if (trimmedNewCategory === "") {
-      setFormError("Category cannot be empty.");
+    if (trimmedNewCategory === '') {
+      setFormError('Category cannot be empty.');
       flag = true;
     }
 
     if (categories.includes(trimmedNewCategory)) {
-      setFormError("Category already exists.");
+      setFormError('Category already exists.');
       flag = true;
     }
 
@@ -115,7 +110,7 @@ const CategoriesList = () => {
 
     if (!flag) {
       setIsAddConfirmationDialogOpen(true);
-      setFormError("");
+      setFormError('');
     }
   };
 
@@ -126,20 +121,20 @@ const CategoriesList = () => {
   };
 
   const handleEditDialogClose = () => {
-    setFormError("");
+    setFormError('');
     setIsEditDialogOpen(false);
   };
 
   const handleSave = () => {
     const trimmedCategory = editedCategory.trim();
-    var flag = false;
-    if (trimmedCategory === "") {
-      setFormError("Category cannot be empty.");
+    let flag = false;
+    if (trimmedCategory === '') {
+      setFormError('Category cannot be empty.');
       flag = true;
     }
 
     if (categories.includes(trimmedCategory)) {
-      setFormError("Category already exists.");
+      setFormError('Category already exists.');
       flag = true;
     }
 
@@ -156,19 +151,19 @@ const CategoriesList = () => {
   const handleConfirmSave = () => {
     setIsEditConfirmationDialogOpen(false);
     setIsEditDialogOpen(false);
-    setFormError("");
+    setFormError('');
     dispatch(
       updateCategoryAndTransactions({
-        userId: userId,
+        userId,
         oldCategory: selectedCategory.category,
         newCategory: editedCategory,
-      })
+      }),
     );
   };
 
   const handleCancleConfirm = () => {
     setIsEditConfirmationDialogOpen(false);
-    setFormError("");
+    setFormError('');
   };
 
   const handleDelete = (category) => {
@@ -184,24 +179,24 @@ const CategoriesList = () => {
   const handleConfirmDelete = () => {
     setIsDeleteConfirmationOpen(false);
     const categoryToDelete = selectedCategory.category;
-    const deleteTransactions = deleteOption === "delete";
+    const deleteTransactions = deleteOption === 'delete';
 
     if (deleteTransactions) {
       dispatch(
         deleteCategoryAndTransactions({
-          userId: userId,
+          userId,
           category: categoryToDelete,
-        })
+        }),
       );
     }
 
     if (!deleteTransactions) {
       dispatch(
         updateCategoryAndTransactions({
-          userId: userId,
+          userId,
           oldCategory: categoryToDelete,
-          newCategory: "Others",
-        })
+          newCategory: 'Others',
+        }),
       );
     }
   };
@@ -214,12 +209,12 @@ const CategoriesList = () => {
   const getRowId = (row) => row.id;
 
   return (
-    <div style={{ backgroundColor: "#fff" }}>
+    <div style={{ backgroundColor: '#fff' }}>
       <Button
         variant="contained"
         color="primary"
         onClick={handleAdd}
-        sx={{ margin: "20px" }}
+        sx={{ margin: '20px' }}
       >
         Add Category
       </Button>
@@ -231,7 +226,7 @@ const CategoriesList = () => {
           Toolbar: GridToolbar,
         }}
         getRowId={getRowId}
-        sx={{ alignItems: "center" }}
+        sx={{ alignItems: 'center' }}
       />
 
       {isEditDialogOpen && (
@@ -311,10 +306,10 @@ const CategoriesList = () => {
             selectedCategory?.category
           }"? ${
             categories.some(
-              (category) => category.category === selectedCategory?.category
+              (category) => category.category === selectedCategory?.category,
             )
               ? "This category is associated with transactions. You can either delete the transactions or change their category to 'Others' before deleting this category."
-              : ""
+              : ''
           }`}
           confirmText="Delete"
           confirmColor="secondary"
@@ -331,7 +326,7 @@ const CategoriesList = () => {
             }
           }}
           title="Confirm Edit"
-          message={"Are you sure you want to save the edit?"}
+          message="Are you sure you want to save the edit?"
           confirmText="Save Edit"
           confirmColor="secondary"
         />
@@ -372,7 +367,7 @@ const CategoriesList = () => {
           }}
           title="Confirm Add"
           message={
-            "Are you sure you want to add the category? \n After successfully adding the new category, Please add a transaction with this category to retain it"
+            'Are you sure you want to add the category? \n After successfully adding the new category, Please add a transaction with this category to retain it'
           }
           confirmText="Add Category"
           confirmColor="secondary"
@@ -380,6 +375,6 @@ const CategoriesList = () => {
       )}
     </div>
   );
-};
+}
 
 export default CategoriesList;

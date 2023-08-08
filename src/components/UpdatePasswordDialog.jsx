@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import {
   Dialog,
@@ -9,27 +9,27 @@ import {
   TextField,
   Button,
   FormHelperText,
-} from "@mui/material";
-import ConfirmationDialogue from "./ConfirmationDialogue";
-import userServices from "../services/userServices";
+} from '@mui/material';
+import ConfirmationDialogue from './ConfirmationDialogue';
+import userServices from '../services/userServices';
 
-const UpdatePasswordDialog = ({ open, onClose, email }) => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+function UpdatePasswordDialog({ open, onClose, email }) {
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const [formError, setFormError] = useState("");
+  const [formError, setFormError] = useState('');
 
   const handleOpenConfirmation = () => {
     setConfirmationOpen(true);
   };
 
   const handleSave = () => {
-    if (password.trim() === "") {
-      setFormError("Password cannot be empty.");
+    if (password.trim() === '') {
+      setFormError('Password cannot be empty.');
     } else if (password !== confirmPassword) {
-      setFormError("Passwords do not match.");
+      setFormError('Passwords do not match.');
     } else {
-      setFormError("");
+      setFormError('');
       handleOpenConfirmation();
     }
   };
@@ -37,31 +37,31 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
   const handleConfirmSave = async () => {
     setConfirmationOpen(false);
     try {
-      var res = await userServices.resetPassword({
+      const res = await userServices.resetPassword({
         Email: email,
         Password: password,
       });
       if (res) {
-        toast.success("Password changed successfully");
+        toast.success('Password changed successfully');
       } else {
-        toast.error("Password reset failed");
+        toast.error('Password reset failed');
       }
     } catch (err) {
       toast.error(err.response.data);
     } finally {
       setConfirmationOpen(false);
-      setPassword("");
-      setConfirmPassword("");
-      setFormError("");
+      setPassword('');
+      setConfirmPassword('');
+      setFormError('');
       onClose();
     }
   };
 
   const handleCancelSave = () => {
     setConfirmationOpen(false);
-    setPassword("");
-    setConfirmPassword("");
-    setFormError("");
+    setPassword('');
+    setConfirmPassword('');
+    setFormError('');
   };
 
   return (
@@ -113,6 +113,6 @@ const UpdatePasswordDialog = ({ open, onClose, email }) => {
       )}
     </>
   );
-};
+}
 
 export default UpdatePasswordDialog;

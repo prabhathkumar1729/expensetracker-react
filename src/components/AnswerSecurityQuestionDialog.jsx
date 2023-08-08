@@ -1,8 +1,14 @@
-import React, { useState } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import React, { useState } from 'react';
+import {
+  Box, Typography, TextField, Button,
+} from '@mui/material';
 
-const AnswerSecurityQuestionDialog = ({ email, securityQuestion, onVerifyAnswer }) => {
-  const [answer, setAnswer] = useState("");
+function AnswerSecurityQuestionDialog({
+  email,
+  securityQuestion,
+  onVerifyAnswer,
+}) {
+  const [answer, setAnswer] = useState('');
 
   const handleVerifyAnswer = () => {
     onVerifyAnswer(email, answer);
@@ -19,11 +25,17 @@ const AnswerSecurityQuestionDialog = ({ email, securityQuestion, onVerifyAnswer 
         onChange={(e) => setAnswer(e.target.value)}
         variant="standard"
       />
-      <Button variant="contained" color="primary" onClick={handleVerifyAnswer} sx={{margin:"20px"}}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleVerifyAnswer}
+        sx={{ margin: '20px' }}
+      >
         Verify Answer
       </Button>
     </Box>
   );
-};
+}
+
 
 export default AnswerSecurityQuestionDialog;

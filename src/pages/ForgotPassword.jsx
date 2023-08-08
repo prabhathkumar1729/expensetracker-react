@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import ForgotPasswordDialog from "../components/ForgotPasswordDialog";
-import AnswerSecurityQuestionDialog from "../components/AnswerSecurityQuestionDialog";
-import userServices from "../services/userServices";
-import { toast } from "react-toastify";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import UpdatePasswordDialog from "../components/UpdatePasswordDialog";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import ForgotPasswordDialog from '../components/ForgotPasswordDialog';
+import AnswerSecurityQuestionDialog from '../components/AnswerSecurityQuestionDialog';
+import userServices from '../services/userServices';
+import UpdatePasswordDialog from '../components/UpdatePasswordDialog';
 
-const ForgotPassword = (props) => {
+function ForgotPassword(props) {
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState("");
-  const [securityQuestion, setSecurityQuestion] = useState("");
+  const [email, setEmail] = useState('');
+  const [securityQuestion, setSecurityQuestion] = useState('');
   const { onClose, open } = props;
   const handleClose = () => {
     setStep(1);
-    setSecurityQuestion("");
+    setSecurityQuestion('');
     onClose();
   };
 
   const handleSendSecurityQuestion = async (email) => {
     try {
-      var res = await userServices.getUserSecurityQuestion(email);
-      toast.success("Security question requested successfully.");
+      const res = await userServices.getUserSecurityQuestion(email);
+      toast.success('Security question requested successfully.');
       setSecurityQuestion(res);
       setEmail(email);
       setStep(2);
@@ -32,15 +32,15 @@ const ForgotPassword = (props) => {
 
   const handleVerifyAnswer = async (email, answer) => {
     try {
-      var res = await userServices.isUserSecurityAnswerValid({
-        email: email,
+      const res = await userServices.isUserSecurityAnswerValid({
+        email,
         securityAnswer: answer,
       });
       if (res) {
-        toast.success("Correct answer. Please change your password.");
+        toast.success('Correct answer. Please change your password.');
         setStep(3);
       } else {
-        toast.error("Incorrect answer. Please try again.");
+        toast.error('Incorrect answer. Please try again.');
       }
     } catch (error) {
       toast.error(error.response.data);
@@ -49,7 +49,7 @@ const ForgotPassword = (props) => {
 
   const handlePasswordChange = () => {
     setStep(1);
-    setSecurityQuestion("");
+    setSecurityQuestion('');
     onClose();
   };
 
@@ -73,13 +73,13 @@ const ForgotPassword = (props) => {
             <UpdatePasswordDialog
               email={email}
               onClose={handlePasswordChange}
-              open={true}
+              open
             />
           )}
         </DialogContent>
       </Dialog>
     </div>
   );
-};
+}
 
 export default ForgotPassword;

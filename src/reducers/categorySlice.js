@@ -1,14 +1,16 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import CategoryServices from "../services/categoryServices";
+/* eslint-disable no-param-reassign */
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import CategoryServices from '../services/categoryServices';
+
 const initialState = {
   categories: [
-    "Food",
-    "Entertainment",
-    "Shopping",
-    "Medical",
-    "Loans",
-    "Bills",
-    "Others",
+    'Food',
+    'Entertainment',
+    'Shopping',
+    'Medical',
+    'Loans',
+    'Bills',
+    'Others',
   ],
   error: null,
   message: null,
@@ -16,7 +18,7 @@ const initialState = {
 };
 
 export const getUserCategories = createAsyncThunk(
-  "category/getUserCategories",
+  'category/getUserCategories',
   async (userId, { rejectWithValue }) => {
     try {
       const response = await CategoryServices.getUserCategories(userId);
@@ -24,11 +26,11 @@ export const getUserCategories = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
-  }
+  },
 );
 
 const categorySlice = createSlice({
-  name: "category",
+  name: 'category',
   initialState,
   reducers: {
     clearCategory: (state) => {
@@ -51,7 +53,7 @@ const categorySlice = createSlice({
     },
     deleteCategory: (state, action) => {
       state.categories = state.categories.filter(
-        (category) => category !== action.payload
+        (category) => category !== action.payload,
       );
       state.categories = [
         ...new Set(initialState.categories.concat(state.categories)),
@@ -61,18 +63,16 @@ const categorySlice = createSlice({
       state.categories.push(action.payload);
     },
     updateCategory: (state, action) => {
-      state.categories = state.categories.map((category) =>
-        category === action.payload.oldCategory
-          ? action.payload.newCategory
-          : category
-      );
+      state.categories = state.categories.map((category) => (category === action.payload.oldCategory
+        ? action.payload.newCategory
+        : category));
     },
   },
   extraReducers(builder) {
     builder.addCase(getUserCategories.fulfilled, (state, action) => {
       state.categories = [...new Set([...state.categories, ...action.payload])];
       state.error = false;
-      state.message = "User Categories Fetched Successfully";
+      state.message = 'User Categories Fetched Successfully';
       state.loaded = true;
     });
     builder.addCase(getUserCategories.rejected, (state, action) => {

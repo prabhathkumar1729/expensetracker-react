@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getTransactions } from "./reducers/transactionSlice";
-import { setUser } from "./reducers/userSlice";
-import { getUserCategories } from "./reducers/categorySlice";
+/* eslint-disable react/jsx-filename-extension */
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-} from "react-router-dom";
+} from 'react-router-dom';
+import { getTransactions } from './reducers/transactionSlice';
+import { setUser } from './reducers/userSlice';
+import { getUserCategories } from './reducers/categorySlice';
 
-import Loader from "./components/Loader";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-import Register from "./pages/Register";
-import Transactions from "./pages/Transactions";
-import Categories from "./pages/Categories";
-import Profile from "./pages/Profile";
-import AuthorisedLayout from "./components/AuthorisedLayout";
-import UnAuthorisedLayout from "./components/UnAuthorisedLayout";
+import Loader from './components/Loader';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import Register from './pages/Register';
+import Transactions from './pages/Transactions';
+import Categories from './pages/Categories';
+import Profile from './pages/Profile';
+import AuthorisedLayout from './components/AuthorisedLayout';
+import UnAuthorisedLayout from './components/UnAuthorisedLayout';
+
 const decodeJwtToken = (token) => {
-  const payload = token.split(".")[1];
+  const payload = token.split('.')[1];
   const decodedPayload = JSON.parse(atob(payload));
   return decodedPayload;
 };
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("JWTToken");
-  //const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjEwMiIsIk5hbWUiOiJUZXN0ZXIyIiwiRW1haWwiOiJ0ZXN0ZXIyQGFiYy5jb20iLCJleHAiOjE2OTA0NDU3NTMsImlzcyI6ImxvY2FsaG9zdDo3MjIwIiwiYXVkIjoibG9jYWxob3N0OjcyNTkifQ.YuSHficP5SlR0p965JIIPLZSAhgKpmmCQNTUptQoBNE';
+  const token = localStorage.getItem('JWTToken');
   const dispatch = useDispatch();
   const user = token ? decodeJwtToken(token) : null;
 

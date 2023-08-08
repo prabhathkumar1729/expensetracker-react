@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import UserServices from "../services/userServices";
+/* eslint-disable no-param-reassign */
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import UserServices from '../services/userServices';
 
 const initialState = {
   user: {},
@@ -8,7 +9,7 @@ const initialState = {
 };
 
 export const getProfile = createAsyncThunk(
-  "user/getProfile",
+  'user/getProfile',
   async (userId, { rejectWithValue }) => {
     try {
       const response = await UserServices.getProfile(userId);
@@ -16,11 +17,11 @@ export const getProfile = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
-  }
+  },
 );
 
 const UserSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     clearUser: (state) => {
@@ -46,11 +47,13 @@ const UserSlice = createSlice({
         Email: action.payload.Email,
       };
       state.error = false;
-      state.message = "User details set sucessfully";
-    }
-  }
+      state.message = 'User details set sucessfully';
+    },
+  },
 });
 
-export const { clearUser, clearError, clearMessage, clearAll, setUser } =  UserSlice.actions;
+export const {
+  clearUser, clearError, clearMessage, clearAll, setUser,
+} = UserSlice.actions;
 
 export default UserSlice.reducer;
